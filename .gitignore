@@ -1,0 +1,33 @@
+########################
+#    package ulist
+#    file .gitignore
+########################
+
+### Go ###
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+#*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+### Buld artifacts ###
+
+README.e.md
+change.log
+bin
+bin/*
+main
+_git_.sh
+example
+example/*
+TODO.md
+build
+build/*
