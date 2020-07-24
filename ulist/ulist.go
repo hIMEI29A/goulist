@@ -143,6 +143,7 @@ func (un *ulistNode) delAt(index int) (int, error) {
 	return n, err
 }
 
+// delOccurrences removes all ocurrences of given element val from current node.
 func (un *ulistNode) delOccurrences(val interface{}) int {
 	for i := range un.elems {
 		if un.elems[i] == val {
@@ -158,6 +159,12 @@ func (un *ulistNode) delOccurrences(val interface{}) int {
 	return k
 }
 
+// redistribAfterDeletion redistributes elements between nodes after deletion of
+// some element. If delet operation reduces the node to less than half-full,
+// then it moves elements from the next node (if that not nil) to fill node back up
+// above half. If this leaves the next node less than half full, then it move all
+// next node's remaining elements into the current node, then delete it.
+// It returns zero if next node was not deleted and 1 in other case.
 func (un *ulistNode) redistribAfterDeletion() int {
 	var n = 0
 
@@ -210,6 +217,7 @@ func (un *ulistNode) redistribAfterDeletion() int {
 	return n
 }
 
+// shift shifts all non-nil elements to the end of the node.
 func (un *ulistNode) shift() {
 	var c = 0
 
@@ -226,6 +234,7 @@ func (un *ulistNode) shift() {
 	}
 }
 
+// do calls function fn on each node's element.
 func (un *ulistNode) do(fn func(interface{})) {
 	for i := range un.elems {
 		if un.elems[i] != nil {
@@ -440,7 +449,7 @@ func (ul *Ulist) IsContains(val interface{}) bool {
 	return check
 }
 
-// PushAll appends all of the elements in the given slice vals to the end of
+// PushAll appends all of the elements of the given slice vals to the end of
 // the list, in the original order.
 func (ul *Ulist) PushAll(vals []interface{}) {
 	for i := range vals {
@@ -448,7 +457,7 @@ func (ul *Ulist) PushAll(vals []interface{}) {
 	}
 }
 
-// RemoveInNode removes element at index elemNum from node at index nodeNum.
+// RemoveInNode removes element with index elemNum from node with index nodeNum.
 func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) {
 	var (
 		err  error
@@ -475,6 +484,7 @@ func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) {
 	}
 }
 
+// RemoveAllOccurrences removes all occurences of element val from list.
 func (ul *Ulist) RemoveAllOccurrences(val interface{}) {
 	var (
 		newNode = newUlistNode(ul.first.capacity)
