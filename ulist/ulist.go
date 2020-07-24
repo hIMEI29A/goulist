@@ -537,7 +537,13 @@ func (ul *Ulist) RemoveAllOfSlice(vals []interface{}) {
 // Set replaces the element at index elemNum in node with index nodeNum
 // with given element val.
 func (ul *Ulist) Set(nodeNum, elemNum int, val interface{}) {
-	node := ul.findNode(nodeNum)
+	node, err := ul.findNode(nodeNum)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
 	node.elems[elemNum] = val
 }
 
@@ -562,7 +568,12 @@ func (ul *Ulist) Len() int {
 
 // Get returns element stored at the index elemNum in node with index nodeNum.
 func (ul *Ulist) Get(nodeNum, elemNum int) interface{} {
-	node := ul.findNode(nodeNum)
+	node, err := ul.findNode(nodeNum)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 
 	return node.elems[elemNum]
 }
