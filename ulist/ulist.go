@@ -84,7 +84,7 @@ func newUlistNode(c int) *ulistNode {
 // added to the end of the new node. The function returns a new node,
 // empty if no elements were moved.
 func (un *ulistNode) add(val interface{}) *ulistNode {
-	newNode := newUlistNode()
+	newNode := newUlistNode(un.capacity)
 
 	if !un.isFull() {
 		for i := range un.elems {
@@ -115,41 +115,80 @@ func (un *ulistNode) add(val interface{}) *ulistNode {
 	return newNode
 }
 
-// del removes the element with the given index from the node.
+// delAt removes the element with the given index from the node.
 // If this reduces the node to less than half-full, then it moves
 // elements from the next node (if that not nil) to fill node back up
 // above half. If this leaves the next node less than half full, then it move all
 // next node's remaining elements into the current node, then delete it.
 // It returns zero if next node was not deleted and 1 in other case. If given
 // index is greater than node's capacity, it returns error.
-func (un *ulistNode) del(index int) (int, error) {
+func (un *ulistNode) delAt(index int) (int, error) {
 	var (
 		err error
 		n   = 0
 	)
 
-	if index > un.capacity {
+	if index > un.capacity-1 {
 		err = errors.New("Element index is out of range")
 		return n, err
 	}
 
-	if un.size > un.capacity/2 {
-		un.elems[index] = nil
-		un.size--
-	} else {
-		if un.next != nil {
-			un.elems[index] = nil
-			un.size--
+	un.elems[index] = nil
+	un.size--
 
-			un.elems[index] = un.next.elems[un.next.size-1]
-			un.size++
-			un.next.elems[un.next.size-1] = nil
-			un.next.size--
+	un.shift()
+
+	n = un.redistribAfterDeletion()
+
+	return n, err
+}
+
+func (un *ulistNode) delOccurrences(val interface{}) int {
+	for i := range un.elems {
+		if un.elems[i] == val {
+			un.elems[i] = nil
+			un.size--
+		}
+	}
+
+	un.shift()
+
+	k := un.redistribAfterDeletion()
+
+	return k
+}
+
+func (un *ulistNode) redistribAfterDeletion() int {
+	var n = 0
+
+	if un.size < un.capacity/2 {
+		if un.next != nil {
+			tmv := un.capacity/2 - un.size
+
+			// save node's current size
+			sizeNode := un.size
+
+			// save next node's current size
+			sizeNextNode := un.next.size
+
+			for i := 0; i < tmv; i++ {
+				un.elems[sizeNode+i] = un.next.elems[sizeNextNode-1-i]
+				un.size++
+				un.next.elems[sizeNextNode-1-i] = nil
+				un.next.size--
+			}
 
 			if un.next.size < un.capacity/2 {
-				for i := range un.next.elems {
-					if un.next.elems[i] != nil {
-						un.elems[un.size+i] = un.next.elems[i]
+
+				// save node's current size
+				newSizeNode := un.size
+
+				// save next node's current size
+				newSizeNextNode := un.next.size
+
+				for j := 0; j < newSizeNextNode; j++ {
+					if un.next.elems[j] != nil {
+						un.elems[newSizeNode+j] = un.next.elems[newSizeNextNode-1-j]
 						un.size++
 					} else {
 						break
@@ -159,7 +198,7 @@ func (un *ulistNode) del(index int) (int, error) {
 				// if next node exists
 				if un.next.next != nil {
 					un.next = un.next.next
-					un.next.next.prev = un
+					un.next.prev = un
 				}
 
 				// indicate that the next node has been removed
@@ -168,7 +207,23 @@ func (un *ulistNode) del(index int) (int, error) {
 		}
 	}
 
-	return n, err
+	return n
+}
+
+func (un *ulistNode) shift() {
+	var c = 0
+
+	for i := 0; i < un.capacity; i++ {
+		if un.elems[i] != nil {
+			un.elems[c] = un.elems[i]
+			c++
+		}
+	}
+
+	for c != un.capacity {
+		un.elems[c] = nil
+		c++
+	}
 }
 
 func (un *ulistNode) do(fn func(interface{})) {
@@ -245,6 +300,11 @@ func (ul *Ulist) findNode(num int) (*ulistNode, error) {
 		return newNode, err
 	}
 
+	if num == 0 {
+		newNode = ul.first
+		return newNode, err
+	}
+
 	count := 0
 
 	// start from front
@@ -257,7 +317,7 @@ func (ul *Ulist) findNode(num int) (*ulistNode, error) {
 		}
 	} else { // start from back
 		count = ul.size
-		newNode.prev = ul.last.prev
+		newNode.prev = ul.last
 
 		for count != num {
 			newNode = newNode.prev
@@ -315,37 +375,10 @@ func (ul *Ulist) Insert(val interface{}, num int) error {
 	return err
 }
 
-// RemoveInNode removes element at index elemNum from node at index nodeNum.
-func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) {
-	var (
-		err  error
-		n    int
-		node = &ulistNode{}
-	)
-
-	node, err = ul.findNode(nodeNum)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	n, err = node.del(elemNum)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	if n != 0 {
-		ul.size -= n
-	}
-}
-
 // Do calls function fn on each list's element.
 func (ul *Ulist) Do(fn func(interface{})) {
 	var (
-		newNode = newUlistNode()
+		newNode = newUlistNode(ul.first.capacity)
 		count   = 0
 	)
 
@@ -411,17 +444,60 @@ func (ul *Ulist) IsContains(val interface{}) bool {
 // the list, in the original order.
 func (ul *Ulist) PushAll(vals []interface{}) {
 	for i := range vals {
-		ul.Push(v[i])
+		ul.Push(vals[i])
 	}
 }
 
-/*
-func (ul *Ulist) RemoveAll(vals []interface{}) {
-	var n interface{}
+// RemoveInNode removes element at index elemNum from node at index nodeNum.
+func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) {
+	var (
+		err  error
+		n    int
+		node = &ulistNode{}
+	)
 
-	fn := func(i interface{}) {
-		if i == n {
+	node, err = ul.findNode(nodeNum)
 
-		}
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
 	}
-}*/
+
+	n, err = node.delAt(elemNum)
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	if n != 0 {
+		ul.size -= n
+	}
+}
+
+func (ul *Ulist) RemoveAllOccurrences(val interface{}) {
+	var (
+		newNode = newUlistNode(ul.first.capacity)
+		count   = 0
+		s       = ul.GetSize()
+		m       = 0
+	)
+
+	newNode = ul.first
+
+	for count < s {
+		k := newNode.delOccurrences(val)
+
+		if k != 0 {
+			m++
+			s--
+		}
+
+		newNode = newNode.next
+		count++
+	}
+
+	if m != 0 {
+		ul.size -= m
+	}
+}
