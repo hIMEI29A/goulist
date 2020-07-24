@@ -449,6 +449,21 @@ func (ul *Ulist) IsContains(val interface{}) bool {
 	return check
 }
 
+// IsContainsAll returns <tt>true</tt> if this list contains all of the elements
+// of the given slice.
+func (ul *Ulist) IsContainsAll(vals []interface{}) bool {
+	var check = true
+
+	for i := range vals {
+		if ul.IsContains(vals[i]) == false {
+			check = false
+			break
+		}
+	}
+
+	return check
+}
+
 // PushAll appends all of the elements of the given slice vals to the end of
 // the list, in the original order.
 func (ul *Ulist) PushAll(vals []interface{}) {
@@ -510,4 +525,44 @@ func (ul *Ulist) RemoveAllOccurrences(val interface{}) {
 	if m != 0 {
 		ul.size -= m
 	}
+}
+
+// RemoveAllOfSlice removes all elements of given slice vals from the list.
+func (ul *Ulist) RemoveAllOfSlice(vals []interface{}) {
+	for i := range vals {
+		ul.RemoveAllOccurrences(vals[i])
+	}
+}
+
+// Set replaces the element at index elemNum in node with index nodeNum
+// with given element val.
+func (ul *Ulist) Set(nodeNum, elemNum int, val interface{}) {
+	node := ul.findNode(nodeNum)
+	node.elems[elemNum] = val
+}
+
+// Len returns number of all non-nil elements stored in list
+func (ul *Ulist) Len() int {
+	var (
+		l       = 0
+		count   = 0
+		newNode = newUlistNode(ul.first.capacity)
+	)
+
+	newNode = ul.first
+
+	for count < ul.GetSize() {
+		l += newNode.size
+		newNode = newNode.next
+		count++
+	}
+
+	return l
+}
+
+// Get returns element stored at the index elemNum in node with index nodeNum.
+func (ul *Ulist) Get(nodeNum, elemNum int) interface{} {
+	node := ul.findNode(nodeNum)
+
+	return node.elems[elemNum]
 }
