@@ -37,7 +37,6 @@ package ulist
 import (
 	"errors"
 	"fmt"
-	"os"
 	"unsafe"
 
 	"golang.org/x/sys/cpu"
@@ -115,6 +114,24 @@ func (un *ulistNode) add(val interface{}) *ulistNode {
 	return newNode
 }
 
+func (un *ulistNode) del(index int) (int, error) {
+	var (
+		err error
+		n   = 0
+	)
+
+	if index > un.capacity-1 {
+		err = errors.New("Element index is out of range")
+		return n, err
+	}
+
+	un.elems[index] = nil
+	un.size--
+	n = index
+
+	return n, err
+}
+
 // delAt removes the element with the given index from the node.
 // If this reduces the node to less than half-full, then it moves
 // elements from the next node (if that not nil) to fill node back up
@@ -128,19 +145,22 @@ func (un *ulistNode) delAt(index int) (int, error) {
 		n   = 0
 	)
 
-	if index > un.capacity-1 {
-		err = errors.New("Element index is out of range")
-		return n, err
+	n, err = un.del(index)
+
+	if err != nil {
+		return n, err // in this case, n still equal to 0
 	}
 
-	un.elems[index] = nil
-	un.size--
+	if n != index {
+		err = errors.New(fmt.Sprintf("Element with index %d deletion error", index))
+		return 0, err
+	}
 
 	un.shift()
 
-	n = un.redistribAfterDeletion()
+	k := un.redistribAfterDeletion()
 
-	return n, err
+	return k, err
 }
 
 // delOccurrences removes all ocurrences of given element val from current node.
@@ -235,10 +255,10 @@ func (un *ulistNode) shift() {
 }
 
 // do calls function fn on each node's element.
-func (un *ulistNode) do(fn func(interface{})) {
+func (un *ulistNode) do(fn func(*interface{})) {
 	for i := range un.elems {
 		if un.elems[i] != nil {
-			fn(un.elems[i])
+			fn(&un.elems[i])
 		} else {
 			break
 		}
@@ -295,6 +315,16 @@ func (ul *Ulist) GetSize() int {
 	return ul.size
 }
 
+// GetFirst returns list's first node
+func (ul *Ulist) GetFirstNode() *ulistNode {
+	return ul.first
+}
+
+// GetLast returns list's last node
+func (ul *Ulist) GetLastNode() *ulistNode {
+	return ul.last
+}
+
 // findNode finds node with given index num. If num is greater than half-size of
 // list, search starts from first node. Else search starts from last node.
 // If num is greater then node size, it returns error.
@@ -338,7 +368,11 @@ func (ul *Ulist) findNode(num int) (*ulistNode, error) {
 }
 
 // Push appends new element val to the end of list.
-func (ul *Ulist) Push(val interface{}) {
+func (ul *Ulist) Push(val interface{}) error {
+	var (
+		err error
+	)
+
 	newNode := ul.last.add(val)
 
 	if newNode.size != 0 {
@@ -352,6 +386,12 @@ func (ul *Ulist) Push(val interface{}) {
 		// increment list's size
 		ul.size++
 	}
+
+	if ul.last.elems[ul.last.size-1] != val {
+		err = errors.New("Element adding error")
+	}
+
+	return err
 }
 
 // Insert inserts a new element val at the target node with index num.
@@ -385,7 +425,7 @@ func (ul *Ulist) Insert(val interface{}, num int) error {
 }
 
 // Do calls function fn on each list's element.
-func (ul *Ulist) Do(fn func(interface{})) {
+func (ul *Ulist) Do(fn func(*interface{})) {
 	var (
 		newNode = newUlistNode(ul.first.capacity)
 		count   = 0
@@ -402,30 +442,27 @@ func (ul *Ulist) Do(fn func(interface{})) {
 
 // Print prints each list's element.
 func (ul *Ulist) Print() {
-	fn := func(i interface{}) {
-		fmt.Printf("%v\n", i)
+	fn := func(i *interface{}) {
+		fmt.Printf("%v\n", *i)
 	}
 
 	ul.Do(fn)
 }
 
-// Clear removes all elements from list.
-func (ul *Ulist) Clear() int {
-	fn := func(i interface{}) {
-		i = nil
+func (ul *Ulist) Clear() {
+	fn := func(i *interface{}) {
+		*i = nil
 	}
 
 	ul.Do(fn)
-
-	return ul.GetSize()
 }
 
 // ExportElems returns slice filled with all list's elements.
 func (ul *Ulist) ExportElems() []interface{} {
 	var target = []interface{}{}
 
-	fn := func(i interface{}) {
-		target = append(target, i)
+	fn := func(i *interface{}) {
+		target = append(target, *i)
 	}
 
 	ul.Do(fn)
@@ -438,8 +475,8 @@ func (ul *Ulist) ExportElems() []interface{} {
 func (ul *Ulist) IsContains(val interface{}) bool {
 	var check = false
 
-	fn := func(i interface{}) {
-		if val == i {
+	fn := func(i *interface{}) {
+		if val == *i {
 			check = true
 		}
 	}
@@ -449,7 +486,7 @@ func (ul *Ulist) IsContains(val interface{}) bool {
 	return check
 }
 
-// IsContainsAll returns <tt>true</tt> if this list contains all of the elements
+// IsContainsAll returns true if this list contains all of the elements
 // of the given slice.
 func (ul *Ulist) IsContainsAll(vals []interface{}) bool {
 	var check = true
@@ -466,14 +503,24 @@ func (ul *Ulist) IsContainsAll(vals []interface{}) bool {
 
 // PushAll appends all of the elements of the given slice vals to the end of
 // the list, in the original order.
-func (ul *Ulist) PushAll(vals []interface{}) {
+func (ul *Ulist) PushAll(vals []interface{}) error {
+	var (
+		err error
+	)
+
 	for i := range vals {
-		ul.Push(vals[i])
+		err = ul.Push(vals[i])
+
+		if err != nil {
+			break
+		}
 	}
+
+	return err
 }
 
 // RemoveInNode removes element with index elemNum from node with index nodeNum.
-func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) {
+func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) error {
 	var (
 		err  error
 		n    int
@@ -482,21 +529,13 @@ func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) {
 
 	node, err = ul.findNode(nodeNum)
 
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
 	n, err = node.delAt(elemNum)
-
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
 
 	if n != 0 {
 		ul.size -= n
 	}
+
+	return err
 }
 
 // RemoveAllOccurrences removes all occurences of element val from list.
@@ -536,15 +575,16 @@ func (ul *Ulist) RemoveAllOfSlice(vals []interface{}) {
 
 // Set replaces the element at index elemNum in node with index nodeNum
 // with given element val.
-func (ul *Ulist) Set(nodeNum, elemNum int, val interface{}) {
+func (ul *Ulist) Set(nodeNum, elemNum int, val interface{}) (interface{}, error) {
 	node, err := ul.findNode(nodeNum)
 
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return nil, err
 	}
 
 	node.elems[elemNum] = val
+
+	return node.elems[elemNum], err
 }
 
 // Len returns number of all non-nil elements stored in list
@@ -567,13 +607,12 @@ func (ul *Ulist) Len() int {
 }
 
 // Get returns element stored at the index elemNum in node with index nodeNum.
-func (ul *Ulist) Get(nodeNum, elemNum int) interface{} {
+func (ul *Ulist) Get(nodeNum, elemNum int) (interface{}, error) {
 	node, err := ul.findNode(nodeNum)
 
 	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
+		return nil, err
 	}
 
-	return node.elems[elemNum]
+	return node.elems[elemNum], err
 }
