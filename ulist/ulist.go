@@ -58,7 +58,7 @@ type ulistNode struct {
 }
 
 // newUlistNode creates empty instance of list's node.
-// All elements in emtpy node is set to nil.
+// All elements in empty node is set to nil.
 func newUlistNode(c int) *ulistNode {
 	elems := make([]interface{}, 0)
 
@@ -114,6 +114,8 @@ func (un *ulistNode) add(val interface{}) *ulistNode {
 	return newNode
 }
 
+// del removes the element with the given index from the node.
+// Returns the index on success. In other cases returns zero and error.
 func (un *ulistNode) del(index int) (int, error) {
 	var (
 		err error
@@ -127,7 +129,10 @@ func (un *ulistNode) del(index int) (int, error) {
 
 	un.elems[index] = nil
 	un.size--
-	n = index
+
+	if un.elems[index] == nil {
+		n = index
+	}
 
 	return n, err
 }
@@ -138,7 +143,8 @@ func (un *ulistNode) del(index int) (int, error) {
 // above half. If this leaves the next node less than half full, then it move all
 // next node's remaining elements into the current node, then delete it.
 // It returns zero if next node was not deleted and 1 in other case. If given
-// index is greater than node's capacity, it returns error.
+// index is greater than node's capacity or if there was deletion error,
+// it returns zero and error.
 func (un *ulistNode) delAt(index int) (int, error) {
 	var (
 		err error
@@ -164,6 +170,8 @@ func (un *ulistNode) delAt(index int) (int, error) {
 }
 
 // delOccurrences removes all ocurrences of given element val from current node.
+// Returns the number of nodes removed after elements redistribution
+// (see redistribAfterDeletion()).
 func (un *ulistNode) delOccurrences(val interface{}) int {
 	for i := range un.elems {
 		if un.elems[i] == val {
@@ -279,7 +287,7 @@ type Ulist struct {
 }
 
 // NewUlist creates new empty unrolled linked list. It has only one (empty)
-// node wich is first and last same time. Returns pointer to empty list.
+// node which is first and last same time. Returns pointer to empty list.
 func newUlist(c int) *Ulist {
 	var (
 		ul   = &Ulist{}
@@ -298,7 +306,7 @@ func newUlist(c int) *Ulist {
 }
 
 // NewUlist creates new empty unrolled linked list. It has only one (empty)
-// node wich is first and last same time. Elem fields of list's nodes
+// node which is first and last same time. Elem fields of list's nodes
 // have length equal to CacheLineSize. Returns pointer to empty list.
 func NewUlist() *Ulist {
 	return newUlist(CacheLineSize)
@@ -327,7 +335,7 @@ func (ul *Ulist) GetLastNode() *ulistNode {
 
 // findNode finds node with given index num. If num is greater than half-size of
 // list, search starts from first node. Else search starts from last node.
-// If num is greater then node size, it returns error.
+// If num is greater than node size, it returns empty node and error.
 func (ul *Ulist) findNode(num int) (*ulistNode, error) {
 	var (
 		err     error
@@ -368,6 +376,7 @@ func (ul *Ulist) findNode(num int) (*ulistNode, error) {
 }
 
 // Push appends new element val to the end of list.
+// Returns the error on failure.
 func (ul *Ulist) Push(val interface{}) error {
 	var (
 		err error
@@ -470,8 +479,7 @@ func (ul *Ulist) ExportElems() []interface{} {
 	return target
 }
 
-// IsContains returns returns true if list contains
-// at least one element val.
+// IsContains returns true if list contains at least one element val.
 func (ul *Ulist) IsContains(val interface{}) bool {
 	var check = false
 
@@ -502,7 +510,7 @@ func (ul *Ulist) IsContainsAll(vals []interface{}) bool {
 }
 
 // PushAll appends all of the elements of the given slice vals to the end of
-// the list, in the original order.
+// the list, in the original order. Returns error on failure.
 func (ul *Ulist) PushAll(vals []interface{}) error {
 	var (
 		err error
@@ -520,6 +528,7 @@ func (ul *Ulist) PushAll(vals []interface{}) error {
 }
 
 // RemoveInNode removes element with index elemNum from node with index nodeNum.
+// Returns error if node's index is greater than list's size.
 func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) error {
 	var (
 		err  error
@@ -538,7 +547,7 @@ func (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) error {
 	return err
 }
 
-// RemoveAllOccurrences removes all occurences of element val from list.
+// RemoveAllOccurrences removes all occurrences of element val from list.
 func (ul *Ulist) RemoveAllOccurrences(val interface{}) {
 	var (
 		newNode = newUlistNode(ul.first.capacity)
@@ -574,7 +583,8 @@ func (ul *Ulist) RemoveAllOfSlice(vals []interface{}) {
 }
 
 // Set replaces the element at index elemNum in node with index nodeNum
-// with given element val.
+// with given element val. Returns new value of the element
+// and error if node's index is greater than list's size.
 func (ul *Ulist) Set(nodeNum, elemNum int, val interface{}) (interface{}, error) {
 	node, err := ul.findNode(nodeNum)
 
@@ -606,7 +616,8 @@ func (ul *Ulist) Len() int {
 	return l
 }
 
-// Get returns element stored at the index elemNum in node with index nodeNum.
+// Get returns element stored at the index elemNum in node with index nodeNum
+// and error if node's index is greater than list's size.
 func (ul *Ulist) Get(nodeNum, elemNum int) (interface{}, error) {
 	node, err := ul.findNode(nodeNum)
 
