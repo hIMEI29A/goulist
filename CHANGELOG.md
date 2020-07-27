@@ -1,13 +1,44 @@
 # Changelog - 
 
+### 0.2.0-alpha
+
+__Changes__
+
+- [test] [feature] [version] Tests for ulist.go written
+
+  - Tests for ulist.go written.
+
+  - New signatures of the functions:
+
+  (ul *Ulist) PushAll(vals []interface{}) error
+
+  (ul *Ulist) RemoveFromNode(nodeNum, elemNum int) error
+
+  (ul *Ulist) Set(nodeNum, elemNum int, val interface{}) (interface{}, error)
+
+  (ul *Ulist) Get(nodeNum, elemNum int) (interface{}, error)
+
+  - New function (*ulistNode) del(index int) (int, error) added.
+
+  - Coverage report bage added to README.md
+
+
+
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Mon 27 Jul 2020 -
+[see the diff](https://github.com/<no value>//compare/0.1.2-alpha...0.2.0-alpha#diff)
+______________
+
 ### 0.1.2-alpha
 
 __Changes__
 
 - [fix] Fixed errors in ulist/go and README.md
 
-  modified:   README.md
-  modified:   ulist/ulist.go
 
 
 
@@ -27,11 +58,7 @@ __Changes__
   Unrolled linked list implemented.
 
 
-
-
-
-
-__Contributors__
+Contributors
 
 - hIMEI
 
