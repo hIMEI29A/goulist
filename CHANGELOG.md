@@ -1,5 +1,19 @@
 # Changelog - 
 
+### 0.2.1-alpha
+
+__Changes__
+
+- [ci] File .travis.yml added
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Mon 27 Jul 2020 -
+[see the diff](https://github.com/<no value>//compare/0.2.0-alpha...0.2.1-alpha#diff)
+______________
+
 ### 0.2.0-alpha
 
 __Changes__
@@ -25,6 +39,8 @@ __Changes__
 
 
 
+
+
 __Contributors__
 
 - hIMEI
@@ -38,6 +54,8 @@ ______________
 __Changes__
 
 - [fix] Fixed errors in ulist/go and README.md
+
+
 
 
 
@@ -58,7 +76,15 @@ __Changes__
   Unrolled linked list implemented.
 
 
-Contributors
+
+
+
+
+
+
+
+
+__Contributors__
 
 - hIMEI
 
