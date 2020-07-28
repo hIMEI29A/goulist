@@ -20,7 +20,7 @@ Work in progress. Only Unrolled linked list implemented.
 
 ## Install
 
-`go get github.com/hIMEI29A/golists`
+`go get github.com/hIMEI29A/golists...`
 
 ## Content
 
