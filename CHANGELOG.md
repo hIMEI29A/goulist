@@ -1,5 +1,21 @@
 # Changelog - 
 
+### 0.2.2-alpha
+
+__Changes__
+
+- [doc] File doc.go added
+- [doc] README.md changed
+- [ci] .travis.yml and README.md changed
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Tue 28 Jul 2020 -
+[see the diff](https://github.com/<no value>//compare/0.2.1-alpha...0.2.2-alpha#diff)
+______________
+
 ### 0.2.1-alpha
 
 __Changes__
@@ -41,6 +57,8 @@ __Changes__
 
 
 
+
+
 __Contributors__
 
 - hIMEI
@@ -54,6 +72,8 @@ ______________
 __Changes__
 
 - [fix] Fixed errors in ulist/go and README.md
+
+
 
 
 
@@ -74,6 +94,8 @@ __Changes__
 
 - [verson] New version 0.1.1-alpha
   Unrolled linked list implemented.
+
+
 
 
 
