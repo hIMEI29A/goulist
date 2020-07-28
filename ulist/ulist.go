@@ -323,12 +323,12 @@ func (ul *Ulist) GetSize() int {
 	return ul.size
 }
 
-// GetFirst returns list's first node
+// GetFirstNode returns list's first node
 func (ul *Ulist) GetFirstNode() *ulistNode {
 	return ul.first
 }
 
-// GetLast returns list's last node
+// GetLastNode returns list's last node
 func (ul *Ulist) GetLastNode() *ulistNode {
 	return ul.last
 }
