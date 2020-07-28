@@ -2,14 +2,13 @@
 
 **Golists** package is a collection of different kinds of linked lists written in pure Go.
 
-[![GoDoc](https://godoc.org/github.com/hIMEI29A/golists?status.svg)](http://godoc.org/github.com/hIMEI29A/golists) [![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-red.svg)](LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hIMEI29A/golists)](https://goreportcard.com/report/github.com/hIMEI29A/golists) [![Coverage Status](https://coveralls.io/repos/github/hIMEI29A/golists/badge.svg?branch=master)](https://coveralls.io/github/hIMEI29A/golists?branch=master)
+[![GoDoc](https://godoc.org/github.com/hIMEI29A/golists?status.svg)](http://godoc.org/github.com/hIMEI29A/golists) [![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-red.svg)](LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hIMEI29A/golists)](https://goreportcard.com/report/github.com/hIMEI29A/golists) [![Coverage Status](https://coveralls.io/repos/github/hIMEI29A/golists/badge.svg?branch=master)](https://coveralls.io/github/hIMEI29A/golists?branch=master) [![Build Status](https://travis-ci.org/hIMEI29A/golists.svg?branch=master)](https://travis-ci.org/hIMEI29A/golists)
 
 ## TOC
 - [Version](#version)
 - [Install](#install)
 - [Content](#content)
 - [Usage](#usage)
-- [TODO](#todo)
 
 ## Version
 
