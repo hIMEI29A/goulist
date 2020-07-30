@@ -323,14 +323,26 @@ func (ul *Ulist) GetSize() int {
 	return ul.size
 }
 
-// GetFirstNode returns list's first node
-func (ul *Ulist) GetFirstNode() *ulistNode {
-	return ul.first
+// GetFirst returns slice filled with all list's first node non-nil elements.
+func (ul *Ulist) GetFirst() []interface{} {
+	var s = []interface{}{}
+
+	for i := 0; i < ul.first.size; i++ {
+		s = append(s, ul.first.elems[i])
+	}
+
+	return s
 }
 
-// GetLastNode returns list's last node
-func (ul *Ulist) GetLastNode() *ulistNode {
-	return ul.last
+// GetLast returns slice filled with all list's last node non-nil elements.
+func (ul *Ulist) GetLast() []interface{} {
+	var s = []interface{}{}
+
+	for i := 0; i < ul.last.size; i++ {
+		s = append(s, ul.last.elems[i])
+	}
+
+	return s
 }
 
 // findNode finds node with given index num. If num is greater than half-size of
@@ -458,6 +470,7 @@ func (ul *Ulist) Print() {
 	ul.Do(fn)
 }
 
+// Clear sets all list's element to nil.
 func (ul *Ulist) Clear() {
 	fn := func(i *interface{}) {
 		*i = nil

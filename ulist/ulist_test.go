@@ -744,7 +744,7 @@ func TestUlist_GetSize(t *testing.T) {
 	}
 }
 
-func TestUlist_GetFirstNode(t *testing.T) {
+func TestUlist_GetFirst(t *testing.T) {
 	ul := NewUlistCustomCap(nodeSize)
 
 	tests := []struct {
@@ -752,24 +752,24 @@ func TestUlist_GetFirstNode(t *testing.T) {
 		want []interface{}
 	}{
 		{
-			"getFirstNodeTest1",
+			"getFirstTest1",
 			[]interface{}{0, 1, 2, 3},
 		},
 
 		{
-			"getFirstNodeTest2",
-			[]interface{}{0, 1, nil, nil},
+			"getFirstTest2",
+			[]interface{}{0, 1},
 		},
 	}
 
 	for _, tt := range tests {
-		if tt.name == "getFirstNodeTest1" {
+		if tt.name == "getFirstTest1" {
 			for i := 0; i < 4; i++ {
 				ul.Push(i)
 			}
 		}
 
-		if tt.name == "getFirstNodeTest2" {
+		if tt.name == "getFirstTest2" {
 			for i := 0; i < 5; i++ {
 				ul.Push(i)
 			}
@@ -777,14 +777,14 @@ func TestUlist_GetFirstNode(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 
-			if got := ul.GetFirstNode(); !reflect.DeepEqual(got.elems, tt.want) {
-				t.Errorf("Ulist.GetFirstNode() = %v, want %v", got, tt.want)
+			if got := ul.GetFirst(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Ulist.GetFirst() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
 
-func TestUlist_GetLastNode(t *testing.T) {
+func TestUlist_GetLast(t *testing.T) {
 	ul := NewUlistCustomCap(nodeSize)
 
 	tests := []struct {
@@ -792,24 +792,24 @@ func TestUlist_GetLastNode(t *testing.T) {
 		want []interface{}
 	}{
 		{
-			"getLastNodeTest1",
+			"getLastTest1",
 			[]interface{}{0, 1, 2, 3},
 		},
 
 		{
-			"getLastNodeTest2",
-			[]interface{}{4, 5, 6, nil},
+			"getLastTest2",
+			[]interface{}{4, 5, 6},
 		},
 	}
 
 	for _, tt := range tests {
-		if tt.name == "getLastNodeTest1" {
+		if tt.name == "getLastTest1" {
 			for i := 0; i < 4; i++ {
 				ul.Push(i)
 			}
 		}
 
-		if tt.name == "getLastNodeTest2" {
+		if tt.name == "getLastTest2" {
 			for i := 0; i < 7; i++ {
 				ul.Push(i)
 			}
@@ -817,8 +817,8 @@ func TestUlist_GetLastNode(t *testing.T) {
 
 		t.Run(tt.name, func(t *testing.T) {
 
-			if got := ul.GetLastNode(); !reflect.DeepEqual(got.elems, tt.want) {
-				t.Errorf("Ulist.GetLastNode() = %v, want %v", got, tt.want)
+			if got := ul.GetLast(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Ulist.GetLast() = %v, want %v", got, tt.want)
 			}
 		})
 	}

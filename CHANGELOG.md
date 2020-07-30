@@ -1,5 +1,26 @@
 # Changelog - 
 
+### 0.3.0-alpha
+
+__Changes__
+
+- [feature] Functions GetFirstNode and GetLastNode removed
+
+  Functions ulist.GetFirstNode and ulist.GetLastNode moved with
+  ulist.GetFirst and ulist.GetLast. Both functions return slice of
+  interface{} now.
+
+
+
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Thu 30 Jul 2020 -
+[see the diff](https://github.com/<no value>//compare/0.2.2-alpha...0.3.0-alpha#diff)
+______________
+
 ### 0.2.2-alpha
 
 __Changes__
@@ -59,6 +80,8 @@ __Changes__
 
 
 
+
+
 __Contributors__
 
 - hIMEI
@@ -72,6 +95,8 @@ ______________
 __Changes__
 
 - [fix] Fixed errors in ulist/go and README.md
+
+
 
 
 
@@ -94,6 +119,8 @@ __Changes__
 
 - [verson] New version 0.1.1-alpha
   Unrolled linked list implemented.
+
+
 
 
 
