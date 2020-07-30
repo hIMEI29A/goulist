@@ -12,7 +12,7 @@
 
 ## Version
 
-`0.2.1-alpha`
+`0.2.2-alpha`
 
 **Status**
 
@@ -20,7 +20,7 @@ Work in progress. Only Unrolled linked list implemented.
 
 ## Install
 
-`go get github.com/hIMEI29A/golists...`
+`go get github.com/hIMEI29A/golists`
 
 ## Content
 
@@ -57,10 +57,6 @@ See [Wikipedia article](http://en.wikipedia.org/wiki/Unrolled_linked_list) for d
 [Java implementation](https://github.com/l-tamas/Unrolled-linked-list)
 
 [Another Golang implementation](https://github.com/ryszard/unrolledlist), but it seems does not work as expected.
-
-### XOR linked list
-
-Not implemented yet
 
 ### Skip list
 
