@@ -37,6 +37,8 @@ package ulist
 import (
 	"errors"
 	"fmt"
+	"io"
+	"os"
 	"unsafe"
 
 	"golang.org/x/sys/cpu"
@@ -465,6 +467,21 @@ func (ul *Ulist) Do(fn func(*interface{})) {
 func (ul *Ulist) Print() {
 	fn := func(i *interface{}) {
 		fmt.Printf("%v\n", *i)
+	}
+
+	ul.Do(fn)
+}
+
+// Printc (Print custom) prints each list's element to given io,Writer w.
+// It calls fmt.Errorf and os.Exit(1) in case of error.
+func (ul *Ulist) Printc(w io.Writer) {
+	fn := func(i *interface{}) {
+		_, err := fmt.Fprintf(w, "%v\n", *i)
+
+		if err != nil {
+			fmt.Errorf("Error of writing to %v\n", w)
+			os.Exit(1)
+		}
 	}
 
 	ul.Do(fn)

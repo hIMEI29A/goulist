@@ -14,6 +14,7 @@
 package ulist
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"reflect"
@@ -1533,6 +1534,33 @@ func TestUlist_Clear(t *testing.T) {
 				if ul.first.elems[i] != nil {
 					t.Errorf("Clear() test failed")
 				}
+			}
+		})
+	}
+}
+
+func TestUlist_Printc(t *testing.T) {
+	ul := NewUlistCustomCap(4)
+
+	ul.Push(22)
+
+	tests := []struct {
+		name  string
+		wantW string
+	}{
+		{
+			"printcTest",
+			fmt.Sprintf("%d\n", 22),
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := &bytes.Buffer{}
+			ul.Printc(w)
+			if gotW := w.String(); gotW != tt.wantW {
+				t.Log(reflect.DeepEqual(gotW, tt.wantW))
+				t.Errorf("Ulist.Printc() = %v, want %v", gotW, tt.wantW)
 			}
 		})
 	}
