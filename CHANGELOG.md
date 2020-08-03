@@ -1,24 +1,37 @@
 # Changelog - 
 
-### 0.3.0-alpha
+### 0.4.0-alpha
 
 __Changes__
 
-- [feature] Functions GetFirstNode and GetLastNode removed
-
-  Functions ulist.GetFirstNode and ulist.GetLastNode moved with
-  ulist.GetFirst and ulist.GetLast. Both functions return slice of
-  interface{} now.
-
-
-
+- [feature] New function ulist.Printc implemented
 
 __Contributors__
 
 - hIMEI
 
-Released by hIMEI, Thu 30 Jul 2020 -
-[see the diff](https://github.com/<no value>//compare/0.2.2-alpha...0.3.0-alpha#diff)
+Released by hIMEI, Mon 03 Aug 2020 -
+[see the diff](https://github.com/<no value>//compare/0.3.0-alpha...0.4.0-alpha#diff)
+______________
+
+### 0.3.0-alpha
+
+__Changes__
+
+- [feature] New function ulist.Printc implemented
+- [feature] Functions GetFirstNode and GetLastNode removed
+
+  ulist.GetFirstNode and ulist.GetLastNode moved with
+  ulist.GetFirst and ulist.GetLast. Both functions return slice of
+  interface{} now.
+- [fix] [doc] Misspelling in README.md fixed
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Mon 03 Aug 2020 -
+[see the diff](https://github.com/<no value>//compare/0.3.0-alpha...0.3.0-alpha#diff)
 ______________
 
 ### 0.2.2-alpha
@@ -73,15 +86,6 @@ __Changes__
 
   - Coverage report bage added to README.md
 
-
-
-
-
-
-
-
-
-
 __Contributors__
 
 - hIMEI
@@ -95,15 +99,6 @@ ______________
 __Changes__
 
 - [fix] Fixed errors in ulist/go and README.md
-
-
-
-
-
-
-
-
-
 
 __Contributors__
 
@@ -119,18 +114,6 @@ __Changes__
 
 - [verson] New version 0.1.1-alpha
   Unrolled linked list implemented.
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 __Contributors__

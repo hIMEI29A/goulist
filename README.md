@@ -12,7 +12,7 @@
 
 ## Version
 
-`0.2.2-alpha`
+`0.4.0-alpha`
 
 **Status**
 
