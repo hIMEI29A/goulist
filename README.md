@@ -1,6 +1,6 @@
-# golists
+# goulist
 
-**Golists** package is a collection of different kinds of linked lists written in pure Go.
+**Goulist** package is an **Urolleld Linked List** written in pure Go.
 
 [![GoDoc](https://godoc.org/github.com/hIMEI29A/golists?status.svg)](http://godoc.org/github.com/hIMEI29A/golists) [![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-red.svg)](LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hIMEI29A/golists)](https://goreportcard.com/report/github.com/hIMEI29A/golists) [![Coverage Status](https://coveralls.io/repos/github/hIMEI29A/golists/badge.svg?branch=master)](https://coveralls.io/github/hIMEI29A/golists?branch=master) [![Build Status](https://travis-ci.org/hIMEI29A/golists.svg?branch=master)](https://travis-ci.org/hIMEI29A/golists)
 
@@ -12,11 +12,7 @@
 
 ## Version
 
-`0.4.0-alpha`
-
-**Status**
-
-Work in progress. Only Unrolled linked list implemented.
+`1.0.0`
 
 ## Install
 
@@ -58,20 +54,12 @@ See [Wikipedia article](http://en.wikipedia.org/wiki/Unrolled_linked_list) for d
 
 [Another Golang implementation](https://github.com/ryszard/unrolledlist), but it seems does not work as expected.
 
-### Skip list
-
-Not implemented yet
-
-### Vlist
-
-Not implemented yet
-
 ## Usage
 
 Import required subpackage:
 
 ```
 import (
-	"github.com/hIMEI29A/golists/ulist"
+	"github.com/hIMEI29A/goulist"
 )
 ```

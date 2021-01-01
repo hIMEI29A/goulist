@@ -32,7 +32,7 @@
 // 	current node, then bypass and delete it.
 //
 // See http://en.wikipedia.org/wiki/Unrolled_linked_list for details
-package ulist
+package goulist
 
 import (
 	"errors"
