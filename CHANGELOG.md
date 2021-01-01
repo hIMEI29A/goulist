@@ -1,10 +1,36 @@
 # Changelog - 
 
+### 1.0.0
+
+__Changes__
+
+- [feat] Package name changed to goulist
+- Merge branch 'master' into dev
+- [feature] New function ulist.Printc implemented
+
+__Contributors__
+
+- Alexey hIMEI Matveev
+
+Released by Alexey hIMEI Matveev, Fri 01 Jan 2021 -
+[see the diff](https://github.com/<no value>//compare/0.4.0-alpha...1.0.0#diff)
+______________
+
 ### 0.4.0-alpha
 
 __Changes__
 
 - [feature] New function ulist.Printc implemented
+- Merge branch 'dev' into ulist
+- Merge branch 'master' into dev
+- [feature] Functions GetFirstNode and GetLastNode removed
+
+  ulist.GetFirstNode and ulist.GetLastNode moved with
+  ulist.GetFirst and ulist.GetLast. Both functions return slice of
+  interface{} now.
+- Merge branch 'dev' into ulist
+- [default] Merge branch 'dev' into ulist
+- [fix] [doc] Misspelling in README.md fixed
 
 __Contributors__
 
@@ -31,6 +57,35 @@ __Contributors__
 - hIMEI
 
 Released by hIMEI, Mon 03 Aug 2020 -
+[see the diff](https://github.com/<no value>//compare/0.3.0-alpha...0.3.0-alpha#diff)
+______________
+
+### 0.3.0-alpha
+
+__Changes__
+
+- [feature] Functions GetFirstNode and GetLastNode removed
+
+  Functions ulist.GetFirstNode and ulist.GetLastNode moved with
+  ulist.GetFirst and ulist.GetLast. Both functions return slice of
+  interface{} now.
+
+
+
+
+
+
+
+
+
+
+
+
+__Contributors__
+
+- hIMEI
+
+Released by hIMEI, Thu 30 Jul 2020 -
 [see the diff](https://github.com/<no value>//compare/0.3.0-alpha...0.3.0-alpha#diff)
 ______________
 
@@ -61,7 +116,23 @@ __Contributors__
 - hIMEI
 
 Released by hIMEI, Mon 27 Jul 2020 -
-[see the diff](https://github.com/<no value>//compare/0.2.0-alpha...0.2.1-alpha#diff)
+[see the diff](https://github.com/<no value>//compare/0.2.0...0.2.1-alpha#diff)
+______________
+
+### 0.2.0
+
+__Changes__
+
+- [feat] Packag name changed to goulist
+- Merge branch 'master' into dev
+- [feature] New function ulist.Printc implemented
+
+__Contributors__
+
+- Alexey hIMEI Matveev
+
+Released by Alexey hIMEI Matveev, Fri 01 Jan 2021 -
+[see the diff](https://github.com/<no value>//compare/0.2.0-alpha...0.2.0#diff)
 ______________
 
 ### 0.2.0-alpha
@@ -86,6 +157,23 @@ __Changes__
 
   - Coverage report bage added to README.md
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 __Contributors__
 
 - hIMEI
@@ -99,6 +187,23 @@ ______________
 __Changes__
 
 - [fix] Fixed errors in ulist/go and README.md
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 __Contributors__
 
@@ -114,6 +219,26 @@ __Changes__
 
 - [verson] New version 0.1.1-alpha
   Unrolled linked list implemented.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 __Contributors__
