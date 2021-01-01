@@ -2,7 +2,7 @@
 
 **Goulist** package is an **Urolleld Linked List** written in pure Go.
 
-[![GoDoc](https://godoc.org/github.com/hIMEI29A/golists?status.svg)](http://godoc.org/github.com/hIMEI29A/golists) [![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-red.svg)](LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hIMEI29A/golists)](https://goreportcard.com/report/github.com/hIMEI29A/golists) [![Coverage Status](https://coveralls.io/repos/github/hIMEI29A/golists/badge.svg?branch=master)](https://coveralls.io/github/hIMEI29A/golists?branch=master) [![Build Status](https://travis-ci.org/hIMEI29A/golists.svg?branch=master)](https://travis-ci.org/hIMEI29A/golists)
+[![GoDoc](https://godoc.org/github.com/hIMEI29A/goulist?status.svg)](http://godoc.org/github.com/hIMEI29A/goulist) [![Apache-2.0 License](https://img.shields.io/badge/license-Apache--2.0-red.svg)](LICENSE) [![Go Report Card](https://goreportcard.com/badge/github.com/hIMEI29A/goulist)](https://goreportcard.com/report/github.com/hIMEI29A/goulist) [![Coverage Status](https://coveralls.io/repos/github/hIMEI29A/goulist/badge.svg?branch=master)](https://coveralls.io/github/hIMEI29A/goulist?branch=master) [![Build Status](https://travis-ci.org/hIMEI29A/goulist.svg?branch=master)](https://travis-ci.org/hIMEI29A/goulist)
 
 ## TOC
 - [Version](#version)
@@ -21,8 +21,6 @@
 ## Content
 
 ### Unrolled linked list
-
-[github.com/hIMEI29A/golists/ulist](https://github.com/hIMEI29A/golists/tree/master/ulist)
 
 **Unrolled linked list** (_ULL_) is an doubly linked list each node of which holds up to a certain maximum number of elements, typically just large enough so that the node fills a single cache line or a small multiple thereof.
 
