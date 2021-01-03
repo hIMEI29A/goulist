@@ -101,21 +101,6 @@ __Changes__
   ulist.GetFirst and ulist.GetLast. Both functions return slice of
   interface{} now.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 __Contributors__
 
 - hIMEI
@@ -158,7 +143,6 @@ ______________
 
 __Changes__
 
-- [feat] Packag name changed to goulist
 - Merge branch 'master' into dev
 - [feature] New function ulist.Printc implemented
 
