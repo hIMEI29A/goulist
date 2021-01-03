@@ -12,11 +12,11 @@
 
 ## Version
 
-`1.0.0`
+`1.0.2`
 
 ## Install
 
-`go get github.com/hIMEI29A/golists`
+`go get github.com/hIMEI29A/goulist`
 
 ## Content
 
@@ -54,7 +54,7 @@ See [Wikipedia article](http://en.wikipedia.org/wiki/Unrolled_linked_list) for d
 
 ## Usage
 
-Import required subpackage:
+Import package:
 
 ```
 import (
